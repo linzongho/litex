@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$Think.L.kod_name}</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <link href="__PUBLIC__/images/favicon.ico" rel="Shortcut Icon" >
+    <link href="__PUBLIC__/css/bootstrap.css?ver=<?php echo KOD_VERSION;?>" rel="stylesheet"/>
+    <link href="__PUBLIC__/css/font-awesome/css/font-awesome.css" rel="stylesheet" >
+</head>
+<body>
+
+<!-- body -->
+<block name="body"></block>
+<!-- footer -->
+<block name="footer">
+    <div class="common_footer">{$Think.L.copyright_pre} v{$Think.const.LITE_VERSION} {$Think.L.copyright_info}</div>
+</block>
+<script src="__PUBLIC__/index.php?share/common_js"></script>
+</body>
+</html>

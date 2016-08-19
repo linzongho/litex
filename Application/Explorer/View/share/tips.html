@@ -1,0 +1,32 @@
+<extend file="../basic/general.html"/>
+<block name="body">
+	<script>
+		document.body.style.overflow = 'hidden';
+	</script>
+	<include file="../common/navbar_share.html"/>
+	<div class="frame-main">
+		<if condition="$msg eq 'password'">
+			<div class="share_page_passowrd">
+				<b>{$Think.L.share_password}:</b>
+				<input type="text" class="form-control"/>
+				<a href="javascript:void(0);" class="btn btn-primary share_login">{$Think.L.button_ok}</a>
+			</div>
+		<else />
+			<div class="share_page_error"><b>tips:</b>{$msg}</div>
+		</if>
+	</div>
+	<include file="../common/footer.html"/>
+</block>
+<block name="style">
+	<link href="__PUBLIC__/css/skin/simple/app_code_edit.css" rel="stylesheet" id='link_css_list'/>
+	<style type="text/css">
+		body{
+			-khtml-user-select: all;
+			-webkit-user-select: all;
+			-moz-user-select: all;
+			-ms-user-select: all;
+			-o-user-select: all;
+			user-select: all;
+		}
+	</style>
+</block>
