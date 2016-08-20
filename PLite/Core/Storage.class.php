@@ -11,6 +11,19 @@ interface StorageInterface {
 //----------------------------------------------------------------------------------------------------------------------
 //------------------------------ 读取 -----------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
+
+
+    /**
+     * 读取文件夹内容，并返回一个数组(不包含'.'和'..')
+     * array(
+     *      //文件名称(相对于带读取的目录而言) => 文件内容
+     *      'filename' => 'file full path',
+     * );
+     * @param $dirpath
+     * @param bool $recursion 是否进行递归读取
+     * @return array
+     */
+    public function readDir($dirpath, $recursion=false);
     /**
      * 获取文件内容
      *  页面是utf-8，file_get_contents的页面是gb2312，输出时中文乱码
@@ -102,11 +115,14 @@ interface StorageInterface {
      * @return bool|null 是否成功写入,返回null表示无法访问该范围的文件
      */
     public function append($filepath, $content, $write_encode = null, $text_encode = 'UTF-8');
+
+
 }
 
 /**
  * Class Storage
  * @method mixed read(string $filepath, string $file_encoding = null, bool $recursion = false) static 获取文件内容
+ * @method array readDir(string $dirpath,bool $recursion=false) static 读取目录，参数二表示是否递归查询，默认关闭
  * @method int has(string $filepath) static 确定文件或者目录是否存在
  * @method int|bool mtime(string $filepath, int $mtime = null) static 返回文件内容上次的修改时间
  * @method int|false size(string $filepath) static 获取文件按大小

@@ -1,11 +1,10 @@
 <?php
-const DEBUG_MODE_ON = false;
+const DEBUG_MODE_ON = true;
 const PAGE_TRACE_ON = true;
 const LITE_ON = false;
 const INSPECT_ON = false;
 
-include '/home/asus/webroot/litex/PLite/entry.php';
-//include '../PLite/entry.php';
+include '../PLite/entry.php';
 //include '../PLite/entry.lite.php';
 
 function wechat($id){

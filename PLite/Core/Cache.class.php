@@ -1,6 +1,9 @@
 <?php
 namespace PLite\Core;
 use PLite\Lite;
+use PLite\PLiteException;
+use PLite\Util\SEK;
+use PLite\Utils;
 
 /**
  * Interface CacheInterface 缓存驱动接口
@@ -45,7 +48,7 @@ interface CacheInterface {
 /**
  * Class Cache
  *
- * @method int get(string $name,$replace=null) static 读取缓存
+ * @method string get(string $name,$replace=null) static 读取缓存
  * @method boolean set(string $name,mixed $value,int $expire) static 写入缓存
  * @method int delete(string $name) static 删除缓存
  * @method int clean() static empty the cache
@@ -81,6 +84,62 @@ class Cache extends Lite{
                 'length'    => 0,
             ],
         ],
+        'expire'    => 300,
     ];
+    /** 
+     * 键为ob缓存的level
+     * @var array
+     */
+    private static $_idStack = [];
+
+    /**
+     * 判断是否存在指定的缓存
+     * @param mixed $identify
+     * @return bool
+     */
+    public static function has($identify){
+        return null !== self::get(self::_buildIdentify($identify),null);
+    }
+
+    /**
+     * 开始缓存直到调用save保存缓存
+     * @param mixed $identify
+     * @return void
+     */
+    public static function begin($identify){
+        $identify = self::_buildIdentify($identify);
+        ob_start() or PLiteException::throwing('Cache begin failed!');
+        $level = ob_get_level();
+        self::$_idStack[$level] = $identify;
+    }
+
+    /**
+     * @param int|null $expire
+     * @return void
+     */
+    public static function save($expire=null){
+        $level = ob_get_level();
+        if(isset($level)){
+            $content = ob_get_contents();
+            $content = ob_get_clean();
+            return $content;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * build identify
+     * @param mixed $identify
+     * @return string
+     */
+    private static function _buildIdentify($identify=null){
+        if(!$identify){
+            $identify = SEK::createGUID();
+        }elseif(!is_string($identify)){
+            $identify = md5(http_build_query($identify));
+        }
+        return $identify;
+    }
 
 }
