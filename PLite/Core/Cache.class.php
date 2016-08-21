@@ -106,7 +106,7 @@ class Cache extends Lite{
      * @param mixed $identify
      * @return void
      */
-    public static function begin($identify){
+    public static function beginWith($identify){
         $identify = self::_buildIdentify($identify);
         ob_start() or PLiteException::throwing('Cache begin failed!');
         $level = ob_get_level();
@@ -114,15 +114,21 @@ class Cache extends Lite{
     }
 
     /**
-     * @param int|null $expire
-     * @return void
+     * @param int $expire
+     * @param mixed $idcheck
+     * @return bool
      */
-    public static function save($expire=null){
+    public static function endWith($expire=0,$idcheck=null){
         $level = ob_get_level();
-        if(isset($level)){
+        if(isset($level) and isset(self::$_idStack[$level])){
+            $identify = self::$_idStack[$level];
+            if(isset($identify)){
+                if($identify != $idcheck){
+                    PLiteException::throwing('Wrong identify,due to not exist!');
+                }
+            }
             $content = ob_get_contents();
-            $content = ob_get_clean();
-            return $content;
+            return self::set($identify,$content,$expire);
         }else{
             return false;
         }
